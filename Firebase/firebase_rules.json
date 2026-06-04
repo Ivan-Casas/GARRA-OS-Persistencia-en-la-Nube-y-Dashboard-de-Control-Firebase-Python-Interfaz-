@@ -1,0 +1,36 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+
+    "telemetria": {
+      ".read": "auth != null",
+      ".write": "auth.token.admin === true"
+    },
+
+    "eventos": {
+      ".read": "auth != null",
+      ".write": "auth.token.admin === true",
+      ".indexOn": ["timestamp", "tipo"]
+    },
+
+    "alertas": {
+      ".read": "auth != null",
+      ".write": "auth.token.admin === true",
+      ".indexOn": ["timestamp"]
+    },
+
+    "estado": {
+      ".read": "auth != null",
+      ".write": "auth.token.admin === true"
+    },
+
+    "comandos": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "servo":  { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 180" },
+      "oled":   { ".validate": "newData.isString() && (newData.val() === 'feliz' || newData.val() === 'alerta' || newData.val() === 'neutro')" },
+      "paro":   { ".validate": "newData.isBoolean()" }
+    }
+  }
+}
